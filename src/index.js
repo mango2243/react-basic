@@ -1,6 +1,7 @@
 // 入口文件夹
-import React from "react";
-import ReactDOM from "react-dom";
-import App from './APP'
+import { createRoot } from 'react-dom/client';
+import App from './06_组件通信/发布订阅案例'
 
-ReactDOM.render(<App></App>,document.querySelector("#root"))
+const container = document.getElementById('app');
+const root = createRoot(container); 
+root.render(<App />);

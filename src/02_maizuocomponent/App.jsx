@@ -1,6 +1,5 @@
 import React from "react";
-import Test from "./components/test";
-
+import Choose from "./选项卡";
 export default class App extends React.Component{
     constructor() {
         super()
@@ -12,8 +11,7 @@ export default class App extends React.Component{
     render() {
         return (
             <div>
-                {this.state.message}
-                <Test />
+                <Choose />
             </div>
         )
     }
