@@ -4,7 +4,7 @@ import "./css/index.css"
 
 // 调度中心
 var bus = {
-    list:[],
+    list: [],
     // 订阅
     subscribe(callback) {
         this.list.push(callback)
@@ -12,7 +12,7 @@ var bus = {
     // 发布
     publish(value) {
         this.list.forEach(callback => {
-            callback&&callback(value)
+            callback && callback(value)
         })
     }
 }
@@ -24,6 +24,8 @@ export default class app extends Component {
         this.state = {
             filmsList: [],
         }
+    }
+    componentDidMount() {
         axios.get(`/test.json`).then(res => {
             this.setState({
                 filmsList: res.data.data.films
@@ -82,11 +84,11 @@ class FilmsDetil extends Component {
         super()
         bus.subscribe((value) => {
             this.setState({
-                value:value
+                value: value
             })
         })
         this.state = {
-            value:""
+            value: ""
         }
     }
     render() {

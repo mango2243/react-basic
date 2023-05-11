@@ -1,13 +1,14 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import "./css/index.css"
-React.createContext()
+const GolbelContext = React.createContext()
+
 export default class app extends Component {
     constructor() {
         super()
         this.state = {
             filmsList: [],
-            detilInfo: []
+            detilInfo: [],
         }
         axios.get(`/test.json`).then(res => {
             this.setState({
@@ -19,12 +20,23 @@ export default class app extends Component {
     }
     render() {
         return (
-            <div>
-                <ul className='ul'>
-                    <FilmsItem item={this.state.filmsList} />
-                    <FilmsDetil detail={this.state.detilInfo} />
-                </ul>
-            </div>
+            <GolbelContext.Provider value={{
+                call: "打电话",
+                sms: "短信",
+                detilInfo:this.state.detilInfo,
+                changInfo:(value)=> {
+                    this.setState({
+                        detilInfo:value
+                    })
+                }
+            }}>
+                <div>
+                    <ul className='ul'>
+                        <FilmsItem item={this.state.filmsList} />
+                        <FilmsDetil />
+                    </ul>
+                </div>
+            </GolbelContext.Provider>
         )
     }
 }
@@ -32,42 +44,51 @@ export default class app extends Component {
 class FilmsItem extends Component {
     render() {
         return (
-            <div>
+            <GolbelContext.Consumer>
                 {
-                    this.props.item.map(item => {
-                        return (
-                            <div key={item.filmId} className='box' onClick={
-                                () => {
-                                    this.props.onEvent(item.synopsis)
-                                }
-                            }>
-                                <div className='img-box'>
-                                    <img src={item.poster} alt="" />
-                                    <div className='font'>
-                                        {item.name}
-                                        <br />
-                                        观众评分：{item.grade}
+                    (value) => {
+                        return <div>{
+                            this.props.item.map(item => {
+                                return (
+                                    <div key={item.filmId} className='box' onClick={() => {
+                                       value.changInfo(item.synopsis)
+                                    }}>
+                                        <div className='img-box'>
+                                            <img src={item.poster} alt="" />
+                                            <div className='font'>
+                                                {item.name}
+                                                <br />
+                                                观众评分：{item.grade}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        )
-                    })
+                                )
+                            })
+                        }
+                        </div>
+                    }
                 }
-            </div>
+            </GolbelContext.Consumer>
         )
-
     }
 }
 
 class FilmsDetil extends Component {
     render() {
         return (
-            <div className='Detil-box'>
-                <ul>
-                    {this.props.detail}
-                </ul>
-            </div>
+            <GolbelContext.Consumer>
+                {
+                    (value) => {
+                        return <div className='Detil-box'>
+                            <ul>
+                                {value.detilInfo}
+                            </ul>
+                        </div>
+                    }
+                }
+            </GolbelContext.Consumer>
         )
 
     }
 }
+

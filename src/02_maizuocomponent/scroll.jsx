@@ -24,12 +24,15 @@ export default class Cinema extends Component {
                 cinemaList: res.data.data.cinemas,
                 oldList: res.data.data.cinemas
             }, () => {
-                new BetterScroll(".wrpper")
+                
             })
-            
+
         })
     }
 
+    componentDidUpdate() {
+        new BetterScroll(".wrpper")
+    }
     // 简易模糊搜索方法
     handleInput(e) {
         console.log(e.target.value);
@@ -43,6 +46,7 @@ export default class Cinema extends Component {
         }
 
     }
+
     render() {
         return (
             <div>
