@@ -8,7 +8,6 @@ export default class App extends React.Component{
             message:"hell App"
         }
     }
-
     render() {
         return (
             <div>
